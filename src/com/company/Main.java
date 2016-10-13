@@ -9,8 +9,8 @@ public class Main {
 
 
 
-        int count = 0;
-        boolean firstLoop = true;
+        //int count = 0;
+        //boolean firstLoop = true;
 
 
         ArrayList<Process> processList = new ArrayList<Process>();
@@ -18,8 +18,8 @@ public class Main {
         processList.add(new Process(1,12,0));
         processList.add(new Process(2,20,0));
         processList.add(new Process(3,12,0));
-        //processList.add(new Process(4,24,0));
-        //processList.add(new Process(5,27,0));
+        processList.add(new Process(4,24,0));
+        processList.add(new Process(5,27,0));
 
 
 
@@ -35,13 +35,15 @@ public class Main {
 
         //sjfSorter(processList);
         fCFS(processList);
+        //roundRobin(processList);
+
 
 
     }
 
 
-    private static void sjfSorter(ArrayList<Process> list)
-    {
+    private static void sjfSorter(ArrayList<Process> list) {
+
         Collections.sort(list);
 
 
@@ -61,20 +63,36 @@ public class Main {
 
         int totalTime = 0;
 
-        for (int i = 0; i < processList.size(); i++){
+        for (int i = 0; i < processList.size(); i++) {
+
+            //System.out.println("START TIME = " + totalTime);
+            System.out.println("p" + processList.get(i).getprocessId() + " Start: " + totalTime);
+            System.out.println("p" + processList.get(i).getprocessId() + " Wait: " + totalTime);
+
 
             if (processList.get(i).getprocessId() == 1) {
+
                 processList.get(i).setProcessWaitTime(0);
+                totalTime += processList.get(i).getProcessTime();
+                processList.get(i).setProcessWaitTime(0);
+
             }
-            else {
+
+            else{
 
                 totalTime += processList.get(i).getProcessTime();
-                processList.get(i).setProcessWaitTime(totalTime);
-            }
+
+                 processList.get(i).setProcessWaitTime(totalTime);
+
+        }
 
 
 
-            System.out.println("p" + processList.get(i).getprocessId() + ": " + processList.get(i).getProcessWaitTime());
+
+
+
+            System.out.println("p" + processList.get(i).getprocessId() + " Burst: " + processList.get(i).getProcessTime());
+            System.out.println();
         }
 
 
@@ -85,7 +103,7 @@ public class Main {
 
 
 
-    public void roundRobin(ArrayList<Process> processList) {
+    private static void roundRobin(ArrayList<Process> processList) {
 
         int waitTime = 0;
         int timeQuantum = 3;
