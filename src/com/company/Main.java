@@ -17,24 +17,65 @@ public class Main {
 
         ArrayList<Process> processList = new ArrayList<Process>();
 
-        processList.add(new Process(1, 20, 0));
-        processList.add(new Process(2, 2, 0));
-        processList.add(new Process(3, 13, 0));
+        //processList.add(new Process(1, 20, 0));
+        //processList.add(new Process(2, 2, 0));
+        //processList.add(new Process(3, 13, 0));
         //processList.add(new Process(4, 12, 0));
         //processList.add(new Process(5, 1, 0));
         //processList.add(new Process(6, 9, 0));
 
-        System.out.println("Enter a Number");
-        int n = 1 + console.nextInt();
-        System.out.println("n = " + n);
+        System.out.println("Enter the process name and burst time for each process");
+        System.out.println("Please enter the number of processes");
+        int numberOfProcesses = console.nextInt();
+
+
+
+        for (int i = 0; i < numberOfProcesses; i++ ){
+
+
+            System.out.println("Enter process name (integer): ");
+            int processId = console.nextInt();
+
+            System.out.println("Enter process burst time for process " + processId + ": ");
+            int processBurstTime = console.nextInt();
+            System.out.println();
+
+            processList.add(new Process(processId,processBurstTime,0));
+
+        }
+
+
+        System.out.println("Press 1 for Round Robin");
+        System.out.println("Press 2 for FCFS");
+        System.out.println("Press 3 for SJF");
+        System.out.println("Press 4 to  Exit");
+        int option = console.nextInt();
+
+        switch (option){
+
+            case 1:
+                roundRobin(processList);
+                break;
+
+            case 2:
+                fCFS(processList);
+                break;
+
+            case 3:
+                fCFS(sjfSorter(processList));
+                break;
+
+            case 4:
+                System.exit(0);
+                break;
+        }
 
 
 
         //sjfSorter(processList);
         //fCFS(sjfSorter(processList));
-        //fCFS(processList);
+        fCFS(processList);
         //roundRobin(processList);
-
 
     }
 

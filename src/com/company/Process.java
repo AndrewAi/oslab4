@@ -6,11 +6,9 @@ package com.company;
 public class Process implements Comparable {
 
 
-
     private int processId;
     private int processTime;
     private int processWaitTime;
-
 
 
     public Process(int processId, int processTime, int processWaitTime) {
@@ -20,8 +18,6 @@ public class Process implements Comparable {
         this.processWaitTime = processWaitTime;
 
     }
-
-
 
 
     public int getprocessId() {
@@ -50,15 +46,12 @@ public class Process implements Comparable {
     }
 
 
-
-
-
     @Override
-    public int compareTo(Object  pTime) {
+    public int compareTo(Object pTime) {
 
-        int compareProcessTime = ((Process)pTime).getProcessTime();
+        int compareProcessTime = ((Process) pTime).getProcessTime();
 
-        return this.processTime-compareProcessTime;
+        return this.processTime - compareProcessTime;
 
     }
 }
