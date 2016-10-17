@@ -10,32 +10,32 @@ public class Main {
     public static void main(String[] args) {
 
 
-        ArrayList<Process> processList = new ArrayList<Process>();
-                                 //ProcessName  //BurstTime   //Wait Time
-        processList.add(new Process(1,            12,          0));
-        processList.add(new Process(2, 12, 0));
-        processList.add(new Process(3, 12, 0));
-        //processList.add(new Process(4, 12, 0));
-        //processList.add(new Process(5, 1, 0));
-        //processList.add(new Process(6, 9, 0));
+        // calling the showMenu Method to inisiate the program menu
+        // where the user can input the number of processes, process name and process burst time
+        showMenu();
 
-
-        //showMenu();
-
-
-        //sjfSorter(processList);
-        //fCFS(sjfSorter(processList));
-        //fCFS(processList);
-        roundRobin(processList);
-        //roundRobin2(processList);
 
     }
 
+
+
+
+
+
     private static void showMenu() {
 
+        /*Create a new ArrayList of type Process
+        Process is another class which contains ...
+        Private Fields (Process name, Process Time, Process Wait Time)
+        A Constructor to construct an object of type process when called.
+        Getter and Setter methods so that the private fields of the objects can be accessed and modified
+        */
         ArrayList<Process> processList = new ArrayList<Process>();
 
+
+        //Create a new instance of the scanner, to be able to take input from the keyboard
         Scanner console = new Scanner(System.in);
+
 
         System.out.println("Enter the process name and burst time for each process");
         System.out.println("Please enter the number of processes");
@@ -52,7 +52,9 @@ public class Main {
             int processBurstTime = console.nextInt();
             System.out.println();
 
+            // add a new process object as an element to the ArrayList "processList"
             processList.add(new Process(processId, processBurstTime, 0));
+
 
         }
 
@@ -63,7 +65,12 @@ public class Main {
         System.out.println("Press 4 to  Exit");
         int option = console.nextInt();
 
+
+        //switch used to call the method selected by the user in the above dialog.
+        // each method is given the processList Arraylist as its arguement
+
         switch (option) {
+
 
             case 1:
                 roundRobin(processList);
@@ -74,10 +81,14 @@ public class Main {
                 break;
 
             case 3:
+                // to do shortest job first algorithm, I simply call sjfSorter to sort then list then
+                // call fcfs (first come first serve) method which has the same effect as the shortest job first algorithm
+                // as all elements in the processlist are all now sorted, smallest to greatest.
                 fCFS(sjfSorter(processList));
                 break;
 
             case 4:
+                //terminates the program
                 System.exit(0);
                 break;
         }
@@ -86,6 +97,14 @@ public class Main {
     }
 
 
+
+
+
+
+
+    // Below method takes in an ArrayList as its arguement,
+    // Sorts the list so that the smallest values are put the front of the list
+    // and then returns the now sorted list
     private static ArrayList<Process> sjfSorter(ArrayList<Process> list) {
 
         Collections.sort(list);
@@ -106,6 +125,7 @@ public class Main {
         int totalWaitTime = 0;
 
 
+
         for (int i = 0; i < processList.size(); i++) {
 
 
@@ -117,7 +137,8 @@ public class Main {
             totalWaitTime += totalTime;
 
 
-            totalTime = totalTime + processList.get(i).getProcessTime();
+            // TODO: 18/10/2016  add totaltime = totalTime + processlist if problem occurs
+            totalTime += processList.get(i).getProcessTime();
 
         }
 
@@ -130,18 +151,19 @@ public class Main {
 
 
 
-
-
-
-
     private static void roundRobin(ArrayList<Process> processList) {
 
         int waitTime = 0;
-        int timeQuantum = 3;
+        int timeQuantum = 0;
         int timeQuantumCumulative = 0;
         int counter = 0;
         int totalWaitTime = 0;
 
+
+        Scanner console = new Scanner(System.in);
+        System.out.println("Please Enter Time Quantum");
+        timeQuantum = console.nextInt();
+        System.out.println();
 
 
         while (processList.isEmpty() == false) {
@@ -150,13 +172,8 @@ public class Main {
             for (int i = 0; i < processList.size(); i++) {
 
 
-
+                // each iteration of the loop i minus the time Quantum from the processTime / remaing process burst time
                 processList.get(i).setProcessTime(timeQuantum);
-
-
-
-
-
 
 
                 if (processList.get(i).getProcessTime() < 3) {
@@ -164,8 +181,6 @@ public class Main {
                     processList.remove(i);
                     continue;
                 }
-
-
 
 
                 // print out process name
@@ -180,9 +195,6 @@ public class Main {
                 System.out.println();
 
 
-
-
-
                 timeQuantumCumulative += timeQuantum;
                 totalWaitTime += timeQuantum;
                 processList.get(i).setProcessWaitTime(timeQuantum);
@@ -195,100 +207,5 @@ public class Main {
     }
 
 
-    private static void roundRobin2(ArrayList<Process> processList) {
-
-        int waitTime = 0;
-        int timeQuantum = 3;
-        int counter = 0;
-
-        while (processList.isEmpty() == false) {
-
-
-            for (int i = 0; i < processList.size(); i++) {
-
-                //each loop
-                // minus time quantum from the process time
-                // multiply the time quatum by the list item counter and reset the list item counter each time it gets to the end of the list
-
-                //minus the timeQuantum from the processTime
-                processList.get(i).setProcessTime(timeQuantum);
-
-
-                //int waitTime = (p.getprocessId()-1) * timeQuantum;
-                //System.out.println(firstLoop);
-
-
-                waitTime = (processList.get(i).getprocessId() - 1) * timeQuantum;
-
-
-                int totaWaitTime =+ waitTime;
-                int averageWaitTime = totaWaitTime / processList.size();
-                //System.out.println(firstLoop);
-
-
-                System.out.println("list: " + processList.size());
-                System.out.println("p" + processList.get(i).getprocessId() + ": " + processList.get(i).getProcessTime());
-                System.out.println("p" + processList.get(i).getprocessId() + " wt: " + waitTime);
-
-
-                processList.get(i).setProcessWaitTime(waitTime);
-
-                //find out how to add to the list i.e update the wait time of a list item
-                //processList.indexOf(p.getprocessId());
-
-
-                System.out.println("P" + processList.get(i).getprocessId() + " Wait time: " + processList.get(i).getProcessWaitTime());
-                System.out.println();
-
-
-                if (processList.get(i).getProcessTime() < timeQuantum) {
-                    processList.remove(i);
-                    //continue;
-                }
-
-            }
-        }
-    }
-
-
 }
-
-                /*
-                if (i > 0 & i < processList.size()){
-
-                    //loop * (list size - p.get(i)) * Q
-
-                     wTime = (i * (processList.size() - processList.get(i).getprocessId())) * timeQuantum;
-
-                     processList.get(i).setProcessWaitTime(wTime);
-
-
-
-                }
-
-                else if (i == processList.size()){
-
-                    // (loop * processList.get(i).getprocessId() - 1) * timeQuantum;
-
-                   wTime = (i * processList.get(i).getprocessId() - 1) * timeQuantum;
-
-                    processList.get(i).setProcessWaitTime(wTime);
-
-
-
-                }
-
-
-
-                else if (i == 0 && processList.get(i).getprocessId() == 1){
-
-                    // ((loop * 1) * Q) + Q
-
-
-                    wTime = ((i * 1) * timeQuantum) + timeQuantum;
-
-                    processList.get(i).setProcessWaitTime(wTime);
-
-                }
-                */
 

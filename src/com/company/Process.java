@@ -5,7 +5,7 @@ package com.company;
  */
 public class Process implements Comparable {
 
-
+    //Member Variables
     private int processId;
     private int processTime;
     private int processWaitTime;
@@ -13,7 +13,7 @@ public class Process implements Comparable {
 
 
 
-
+    //Constructor which constructs objects from class member variables
     public Process(int processId, int processTime, int processWaitTime) {
 
         this.processId = processId;
@@ -22,6 +22,9 @@ public class Process implements Comparable {
 
 
     }
+
+    // Getters return class member variables
+    // Setters allow the value of class member variables to be modified
 
 
     public int getprocessId() {
@@ -51,6 +54,7 @@ public class Process implements Comparable {
 
 
 
+    //Below method Overrides the default compareTo Method compate the processTime variables
 
     @Override
     public int compareTo(Object pTime) {
