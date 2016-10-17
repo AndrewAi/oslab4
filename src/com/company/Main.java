@@ -10,27 +10,39 @@ public class Main {
     public static void main(String[] args) {
 
 
-        Scanner console = new Scanner(System.in);
-
-
-
-
         ArrayList<Process> processList = new ArrayList<Process>();
-
-        //processList.add(new Process(1, 20, 0));
-        //processList.add(new Process(2, 2, 0));
-        //processList.add(new Process(3, 13, 0));
+                                 //ProcessName  //BurstTime   //Wait Time
+        processList.add(new Process(1,            12,          0));
+        processList.add(new Process(2, 12, 0));
+        processList.add(new Process(3, 12, 0));
         //processList.add(new Process(4, 12, 0));
         //processList.add(new Process(5, 1, 0));
         //processList.add(new Process(6, 9, 0));
+
+
+        //showMenu();
+
+
+        //sjfSorter(processList);
+        //fCFS(sjfSorter(processList));
+        //fCFS(processList);
+        roundRobin(processList);
+        //roundRobin2(processList);
+
+    }
+
+    private static void showMenu() {
+
+        ArrayList<Process> processList = new ArrayList<Process>();
+
+        Scanner console = new Scanner(System.in);
 
         System.out.println("Enter the process name and burst time for each process");
         System.out.println("Please enter the number of processes");
         int numberOfProcesses = console.nextInt();
 
 
-
-        for (int i = 0; i < numberOfProcesses; i++ ){
+        for (int i = 0; i < numberOfProcesses; i++) {
 
 
             System.out.println("Enter process name (integer): ");
@@ -40,7 +52,7 @@ public class Main {
             int processBurstTime = console.nextInt();
             System.out.println();
 
-            processList.add(new Process(processId,processBurstTime,0));
+            processList.add(new Process(processId, processBurstTime, 0));
 
         }
 
@@ -51,7 +63,7 @@ public class Main {
         System.out.println("Press 4 to  Exit");
         int option = console.nextInt();
 
-        switch (option){
+        switch (option) {
 
             case 1:
                 roundRobin(processList);
@@ -71,12 +83,6 @@ public class Main {
         }
 
 
-
-        //sjfSorter(processList);
-        //fCFS(sjfSorter(processList));
-        fCFS(processList);
-        //roundRobin(processList);
-
     }
 
 
@@ -87,6 +93,10 @@ public class Main {
         return list;
 
     }
+
+
+
+
 
 
     private static void fCFS(ArrayList<Process> processList) {
@@ -109,24 +119,96 @@ public class Main {
 
             totalTime = totalTime + processList.get(i).getProcessTime();
 
-
         }
 
         System.out.println("Average Wait Time: " + totalWaitTime / processList.size());
 
-
     }
+
+
+
+
+
+
+
+
 
 
     private static void roundRobin(ArrayList<Process> processList) {
 
         int waitTime = 0;
         int timeQuantum = 3;
+        int timeQuantumCumulative = 0;
+        int counter = 0;
+        int totalWaitTime = 0;
+
+
 
         while (processList.isEmpty() == false) {
 
 
             for (int i = 0; i < processList.size(); i++) {
+
+
+
+                processList.get(i).setProcessTime(timeQuantum);
+
+
+
+
+
+
+
+                if (processList.get(i).getProcessTime() < 3) {
+                    timeQuantumCumulative = timeQuantumCumulative - processList.get(i).getProcessTime();
+                    processList.remove(i);
+                    continue;
+                }
+
+
+
+
+                // print out process name
+                //print out Start Time basically the time Cumalative;
+                //print out burst remaining time basically the .getProcessTime
+                // print out the Wait time which is .getProcessWaitTime
+
+
+                System.out.println("P" + processList.get(i).getprocessId() + " Start Time : " + timeQuantumCumulative);
+                System.out.println("P" + processList.get(i).getprocessId() + " Remaining Time : " + processList.get(i).getProcessTime());
+                System.out.println("P" + processList.get(i).getprocessId() + " Wait Time : " + processList.get(i).getProcessWaitTime());
+                System.out.println();
+
+
+
+
+
+                timeQuantumCumulative += timeQuantum;
+                totalWaitTime += timeQuantum;
+                processList.get(i).setProcessWaitTime(timeQuantum);
+
+
+            }
+
+        }
+
+    }
+
+
+    private static void roundRobin2(ArrayList<Process> processList) {
+
+        int waitTime = 0;
+        int timeQuantum = 3;
+        int counter = 0;
+
+        while (processList.isEmpty() == false) {
+
+
+            for (int i = 0; i < processList.size(); i++) {
+
+                //each loop
+                // minus time quantum from the process time
+                // multiply the time quatum by the list item counter and reset the list item counter each time it gets to the end of the list
 
                 //minus the timeQuantum from the processTime
                 processList.get(i).setProcessTime(timeQuantum);
@@ -139,7 +221,7 @@ public class Main {
                 waitTime = (processList.get(i).getprocessId() - 1) * timeQuantum;
 
 
-                int totaWaitTime = +waitTime;
+                int totaWaitTime =+ waitTime;
                 int averageWaitTime = totaWaitTime / processList.size();
                 //System.out.println(firstLoop);
 
@@ -168,4 +250,45 @@ public class Main {
         }
     }
 
+
 }
+
+                /*
+                if (i > 0 & i < processList.size()){
+
+                    //loop * (list size - p.get(i)) * Q
+
+                     wTime = (i * (processList.size() - processList.get(i).getprocessId())) * timeQuantum;
+
+                     processList.get(i).setProcessWaitTime(wTime);
+
+
+
+                }
+
+                else if (i == processList.size()){
+
+                    // (loop * processList.get(i).getprocessId() - 1) * timeQuantum;
+
+                   wTime = (i * processList.get(i).getprocessId() - 1) * timeQuantum;
+
+                    processList.get(i).setProcessWaitTime(wTime);
+
+
+
+                }
+
+
+
+                else if (i == 0 && processList.get(i).getprocessId() == 1){
+
+                    // ((loop * 1) * Q) + Q
+
+
+                    wTime = ((i * 1) * timeQuantum) + timeQuantum;
+
+                    processList.get(i).setProcessWaitTime(wTime);
+
+                }
+                */
+

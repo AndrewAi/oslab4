@@ -11,11 +11,15 @@ public class Process implements Comparable {
     private int processWaitTime;
 
 
+
+
+
     public Process(int processId, int processTime, int processWaitTime) {
 
         this.processId = processId;
         this.processTime = processTime;
         this.processWaitTime = processWaitTime;
+
 
     }
 
@@ -44,6 +48,8 @@ public class Process implements Comparable {
     public void setProcessWaitTime(int processWaitTime) {
         this.processWaitTime += processWaitTime;
     }
+
+
 
 
     @Override
