@@ -11,14 +11,13 @@ public class Process implements Comparable {
     private int processWaitTime;
 
 
-
-
     //Constructor which constructs objects from class member variables
-    public Process(int processId, int processTime, int processWaitTime) {
+    public Process(int processId, int processTime) {
 
         this.processId = processId;
         this.processTime = processTime;
-        this.processWaitTime = processWaitTime;
+        this.processWaitTime = 0;
+        this.quantumCounter = 0;
 
 
     }
@@ -40,7 +39,14 @@ public class Process implements Comparable {
     }
 
     public void setProcessTime(int processTime) {
-        this.processTime -= processTime;
+
+        if (processTime == 0) {
+            this.processTime = 0;
+        } else {
+            this.processTime -= processTime;
+        }
+
+
     }
 
 
@@ -49,9 +55,19 @@ public class Process implements Comparable {
     }
 
     public void setProcessWaitTime(int processWaitTime) {
-        this.processWaitTime += processWaitTime;
+        this.processWaitTime = processWaitTime;
     }
 
+
+    public int getQuantumCounter() {
+        return quantumCounter;
+    }
+
+    public void setQuantumCounter(int quantumCounter) {
+        this.quantumCounter += quantumCounter;
+    }
+
+    private int quantumCounter;
 
 
     //Below method Overrides the default compareTo Method compate the processTime variables
